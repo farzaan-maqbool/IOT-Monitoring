@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Real-time simulated IoT temperature and humidity monitoring dashboard.">
+  <title>IoT Monitor | Live Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">IOT MONITORING</p>
+      <h1>Device Dashboard</h1>
+    </div>
+    <div class="status-wrap">
+      <span id="mqttDot" class="dot"></span>
+      <span id="mqttStatus">Checking MQTT…</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="cards">
+      <article class="card">
+        <p class="label">Latest temperature</p>
+        <p class="metric"><span id="temperature">--</span><small>°C</small></p>
+        <p class="muted">Alert threshold: 35°C</p>
+      </article>
+      <article class="card">
+        <p class="label">Latest humidity</p>
+        <p class="metric"><span id="humidity">--</span><small>%</small></p>
+        <p class="muted">Relative humidity</p>
+      </article>
+      <article class="card">
+        <p class="label">Device</p>
+        <p class="device-name" id="device">Waiting for data</p>
+        <p class="muted" id="lastUpdated">No readings yet</p>
+      </article>
+      <article class="card">
+        <p class="label">Stored readings</p>
+        <p class="metric"><span id="totalReadings">0</span></p>
+        <p class="muted" id="dbStatus">Checking PostgreSQL…</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">LIVE TELEMETRY</p>
+          <h2>Temperature & humidity history</h2>
+        </div>
+        <span class="live-tag">● AUTO REFRESH</span>
+      </div>
+      <div class="chart-container"><canvas id="sensorChart"></canvas></div>
+      <p class="muted footnote">The chart refreshes every 3 seconds using data saved in PostgreSQL.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">RECENT DATA</p>
+          <h2>Latest readings</h2>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Time</th><th>Device</th><th>Temperature</th><th>Humidity</th><th>Alert</th></tr></thead>
+          <tbody id="readingsTable"><tr><td colspan="5">Waiting for sensor data…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <p class="footer-note">Personal project · Simulated sensor data · Flask · MQTT · PostgreSQL</p>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
